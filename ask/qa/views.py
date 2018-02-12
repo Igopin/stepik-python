@@ -6,3 +6,6 @@ def test(request):
 def login(request):
     return HttpResponse('LOGIN')
 
+def question(request, question_id):
+    return HttpResponse('Question #' + str(question_id))
+
