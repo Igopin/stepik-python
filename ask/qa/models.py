@@ -14,7 +14,7 @@ class Question(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField()
     rating = models.IntegerField()
-    author = models.CharField(max_length=64)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='question_name')
     like = models.ManyToManyField(User)
 
     objects = QuestionManager()
@@ -22,6 +22,6 @@ class Question(models.Model):
 class Answer(models.Model):
     text = models.TextField()
     added_at = models.DateTimeField()
-    author = models.CharField(max_length=64)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='answer_author')
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
 
