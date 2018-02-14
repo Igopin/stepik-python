@@ -10,10 +10,10 @@ class QuestionManager(models.Manager):
         return super().get_queryset().order_by('rating')
 
 class Question(models.Model):
-    title = models.CharField(max_length=255)
-    text = models.TextField()
-    added_at = models.DateTimeField()
-    rating = models.IntegerField()
+    title = models.CharField(max_length=255, null=True)
+    text = models.TextField(null=True)
+    added_at = models.DateTimeField(null=True)
+    rating = models.IntegerField(null=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='question_name')
     likes = models.ManyToManyField(User)
 
