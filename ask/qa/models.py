@@ -4,10 +4,10 @@ from django.contrib.auth.models import User
 # Create your models here.
 class QuestionManager(models.Manager):
     def new(self):
-        return super().get_queryset().exclude(added_at__lt=datetime.date.today())
+        return self.exclude(added_at__lt=datetime.date.today())
 
     def popular(self):
-        return super().get_queryset().order_by('rating')
+        return self.get_queryset().order_by('rating')
 
 class Question(models.Model):
     title = models.CharField(max_length=255, null=True)
