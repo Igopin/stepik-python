@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block workspace %}
+    <h1>New questions</h1>
+    <hr>
+    <ul class="list-group">
+    {% for q in questions %}
+        <li class="list-group-item cpointer">
+              <h5 class="mb-1"><a href={{q.get_url}}>{{ q.title }}</a></h5>
+        </li>
+    {% endfor %}
+    </ul>
+    {% include "paginator.html" %}
+{% endblock %}

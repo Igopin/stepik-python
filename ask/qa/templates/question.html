@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block workspace %}
+  <h1>{{question}}</h1>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      <p>{{question.text}}</p>
+    </div>
+  </div>
+  <hr>
+  {% for a in answers %}
+      <div class="panel panel-default">
+        <div class="panel-body">
+          <p>{{a.text}}</p>
+        </div>
+      </div>
+  {% endfor %}
+{% endblock %}
