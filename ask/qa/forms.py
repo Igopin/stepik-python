@@ -14,18 +14,15 @@ class AskForm(forms.Form):
         return question
 
 class AnswerForm(forms.Form):
-    text = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}))
+    #question = forms.IntegerField(widget=forms.HiddenInput())
+    question = forms.IntegerField()
+    text = forms.CharField(label='Comment', widget=forms.Textarea(attrs={"class": "form-control"}))
 
-    def __init__(self, question, *args, **kwargs):
-       self.question = question
-       super(AnswerForm, self).__init__(*args, **kwargs)
-
-    #def clean_text(self):
-    #    text = self.cleaned_data.get('text', '')
-    #    if text:
-    #        return text
+    def clean(self):
+        pass
 
     def save(self):
+        self.cleaned_data['question'] = Question.objects.get(pk=self.cleaned_data['question']) 
         answer = Answer(**self.cleaned_data)
         answer.save()
         return answer

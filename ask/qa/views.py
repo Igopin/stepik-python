@@ -32,12 +32,11 @@ def show_question(request, question_id):
     answers = Answer.objects.filter(question=question)
     
     if request.method == "GET":
-        form = AnswerForm(question=question)
+        form = AnswerForm()
     elif request.method == "POST":
         form = AnswerForm(request.POST)
         if form.is_valid():
             answer = form.save()
-            print(answer)
             url = question.get_url()
             return HttpResponseRedirect(url)
     else:
