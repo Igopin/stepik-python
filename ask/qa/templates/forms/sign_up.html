@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block workspace %}
+<h1>Sign up</h1><hr>
+
+
+<div class="col-md-12 col-lg-12">
+<form class="form-horizontal"  method="post" action="/signup/">
+  {% csrf_token %}
+  {% for field in form %}
+  <div class="form-group {% if field.errors %} has-error {% endif %}">
+    <label>{{ field.label }}</label>
+    {{ field }}
+  </div>
+  {% endfor %}
+  <div class="form-group">
+    <button type="submit" class="btn btn-pimary col-md-12 col-lg-12">Sign Up!</button>
+  </div>
+</form>
+</div>
+
+{% endblock %}

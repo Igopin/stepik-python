@@ -64,10 +64,17 @@ def question_add(request):
     })
 
 
-def test(request):
-    return HttpResponse('OK')
-
 def login(request):
     return HttpResponse('LOGIN')
 
+def signup(request):
+    if request.method == "GET":
+        form = SignUpForm()
+    elif request.method == "POST":
+        pass
+    else:
+        pass
 
+    return render(request, 'forms/sign_up.html', {
+        'form': form
+    })
