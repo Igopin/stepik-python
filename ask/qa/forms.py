@@ -14,15 +14,20 @@ class AskForm(forms.Form):
         return question
 
 class AnswerForm(forms.Form):
-    #question = forms.IntegerField(widget=forms.HiddenInput())
-    question = forms.IntegerField()
     text = forms.CharField(label='Comment', widget=forms.Textarea(attrs={"class": "form-control"}))
+
+    def __init__(self, question=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.question = question
 
     def clean(self):
         pass
 
+    def get_question_url(self):
+        return self.question.get_url()
+
     def save(self):
-        self.cleaned_data['question'] = Question.objects.get(pk=self.cleaned_data['question']) 
+        self.cleaned_data['question'] = self.question 
         answer = Answer(**self.cleaned_data)
         answer.save()
         return answer
