@@ -88,7 +88,8 @@ def user_signup(request):
     elif request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            login(request, user)
             return HttpResponseRedirect('/')
     else:
         raise Http404
