@@ -1,13 +1,14 @@
 from django import forms
 from qa.models import Question, Answer
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
+from django.core.validators import ValidationError
+
+
 
 class AskForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
     text = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}))
-
-    def clean(self):
-        pass
 
     def save(self):
         question  = Question(**self.cleaned_data)
@@ -40,10 +41,28 @@ class SignUpForm(forms.Form):
     password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
 
     def save(self):
-        user = User.objects.create(
+        user = User.objects.create_user(
             self.cleaned_data['username'],
             self.cleaned_data['email'],
             self.cleaned_data['password'],
             )
         user.save()
         return user
+
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
+    password = forms.CharField(widget=forms.PasswordInput(attrs={"class": "form-control"}))
+
+    def clean(self):
+        user = authenticate(
+            username=self.cleaned_data['username'],
+            password=self.cleaned_data['password']
+        )
+        if user is not None:
+            self.cleaned_data['user'] = user
+        else:
+            raise ValidationError('Login or password is incorrect!')
+
+
+    def get_user(self):
+        return self.cleaned_data['user']

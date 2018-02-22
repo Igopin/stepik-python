@@ -1,22 +1,13 @@
-{% load bootstrap3 %}
+{% extends "base.html" %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-</head>
-<body>
+{% block body %}
 
     {% include "navbar.html" %}
 
     <div class="row">
     <div class="col-lg-12">
-        <div class="col-md-0 col-lg-2"></div>
-        <div class="col-md-9 col-lg-5">{% block workspace %}{% endblock %}</div>
+        <div class="col-md-9 col-lg-5 col-md-offset-0 col-lg-offset-2">{% block workspace %}{% endblock %}</div>
         <div class="col-md-3 col-lg-3">{% block sidebar %}{% endblock %}</div>
-        <div class="col-md-0 col-lg-2"></div>
     </div>
     </div>
-</body>
-</html>
+{% endblock %}

@@ -2,6 +2,7 @@ from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_GET
+from django.contrib.auth import login
 
 from qa.models import *
 from qa.forms import *
@@ -64,16 +65,31 @@ def question_add(request):
     })
 
 
-def login(request):
-    return HttpResponse('LOGIN')
+def user_login(request):
+    if request.method == "GET":
+        form = LoginForm()
+    elif request.method == "POST":
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            login(request, form.get_user())
+            return HttpResponseRedirect('/')
+    else:
+        raise Http404
 
-def signup(request):
+    return render(request, 'forms/login.html', {
+        'form': form
+    })
+
+def user_signup(request):
     if request.method == "GET":
         form = SignUpForm()
     elif request.method == "POST":
-        pass
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/')
     else:
-        pass
+        raise Http404
 
     return render(request, 'forms/sign_up.html', {
         'form': form

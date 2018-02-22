@@ -6,6 +6,6 @@ urlpatterns = [
     path('popular/', views.questions_popular),
     path('question/<int:question_id>/', views.show_question, name="qa-question"),
     path('ask/',     views.question_add),
-    path('login/',   views.login),
-    path('signup/',  views.signup)
+    path('login/',   views.user_login),
+    path('signup/',  views.user_signup)
 ]
