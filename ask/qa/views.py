@@ -51,12 +51,12 @@ def show_question(request, question_id):
 
 def question_add(request):
     if request.method == "POST":
-        form = AskForm(request.POST)
+        form = AskForm(request.user, request.POST)
         if form.is_valid():
             question = form.save()
             return HttpResponseRedirect(question.get_url())
     elif request.method == "GET":
-        form = AskForm()
+        form = AskForm(request.user)
     else:
         raise Http404
 

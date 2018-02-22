@@ -3,7 +3,7 @@
 {% block workspace %}
   <h1>{{question}}</h1>
   <div class="panel panel-default">
-    <div class="panel-heading"><b>User</b></div>
+    <div class="panel-heading"><b>{{question.author}}</b></div>
     <div class="panel-body" style="word-break:break-all;">
       <div>
         <p>{{question.text}}</p>

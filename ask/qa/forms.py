@@ -10,7 +10,12 @@ class AskForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
     text = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}))
 
+    def __init__(self, user=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self._user = user
+
     def save(self):
+        self.cleaned_data['author'] = self._user
         question  = Question(**self.cleaned_data)
         question.save()
         return question
