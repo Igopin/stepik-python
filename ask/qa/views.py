@@ -35,7 +35,8 @@ def show_question(request, question_id):
     if request.method == "GET":
         form = AnswerForm()
     elif request.method == "POST":
-        form = AnswerForm(question, request.POST)
+        form = AnswerForm(request.POST)
+        form._user = request.user
         if form.is_valid():
             form.save()
             return HttpResponseRedirect(form.get_question_url())
@@ -51,12 +52,13 @@ def show_question(request, question_id):
 
 def question_add(request):
     if request.method == "POST":
-        form = AskForm(request.user, request.POST)
+        form = AskForm(request.POST)
+        form._user = request.user
         if form.is_valid():
             question = form.save()
             return HttpResponseRedirect(question.get_url())
     elif request.method == "GET":
-        form = AskForm(request.user)
+        form = AskForm()
     else:
         raise Http404
 

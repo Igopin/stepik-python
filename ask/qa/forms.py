@@ -10,31 +10,31 @@ class AskForm(forms.Form):
     title = forms.CharField(widget=forms.TextInput(attrs={"class": "form-control"}))
     text = forms.CharField(widget=forms.Textarea(attrs={"class": "form-control"}))
 
-    def __init__(self, user=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._user = user
+    #def __init__(self, user=None, *args, **kwargs):
+    #    super().__init__(*args, **kwargs)
+    #    self._user = user
 
     def save(self):
         self.cleaned_data['author'] = self._user
+        print(self.cleaned_data)
         question  = Question(**self.cleaned_data)
         question.save()
         return question
 
 class AnswerForm(forms.Form):
+    question = forms.IntegerField()
     text = forms.CharField(label='Comment', widget=forms.Textarea(attrs={"class": "form-control"}))
-
-    def __init__(self, question=None, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.question = question
 
     def clean(self):
         pass
 
     def get_question_url(self):
-        return self.question.get_url()
+        return self.cleaned_data['question'].get_url()
 
     def save(self):
-        self.cleaned_data['question'] = self.question 
+        self.cleaned_data['question'] = Question.objects.get(pk=self.cleaned_data['question']) 
+        self.cleaned_data['author'] = self._user
+        print(self.cleaned_data)
         answer = Answer(**self.cleaned_data)
         answer.save()
         return answer
